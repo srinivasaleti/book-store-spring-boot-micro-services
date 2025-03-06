@@ -2,6 +2,7 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+.mvn
 
 ### Eclipse ###
 .apt_generated
