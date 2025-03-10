@@ -1,0 +1,36 @@
+version: '3.8'
+name: book-store-micro-service
+
+services:
+  catalog-db:
+    image: postgres:16-alpine
+    container_name: catalog-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "15432:5432"
+    volumes:
+      - ../../tmp/catelog-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512M"
+    networks:
+      - book-store-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  book-store-network:
+    driver: bridge
