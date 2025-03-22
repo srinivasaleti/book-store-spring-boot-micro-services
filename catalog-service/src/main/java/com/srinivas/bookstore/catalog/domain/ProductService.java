@@ -5,7 +5,10 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -37,4 +40,7 @@ public class ProductService {
         );
     }
 
+    public Optional<ProductEntity> getProductByCode(String code) {
+        return productRepository.findByCode(code);
+    }
 }
