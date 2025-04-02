@@ -27,6 +27,18 @@ services:
     networks:
       - book-store-network
 
+  catalog-service:
+    image: catalog-service
+    container_name: catalog-service
+    environment:
+      DB_URL: jdbc:postgresql://catalog-db:5432/postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    ports:
+      - "18081:8081"
+    networks:
+      - book-store-network
+
 volumes:
   postgres_data:
     driver: local

@@ -2,8 +2,10 @@
 
 DOCKER_COMPOSE_FILE_PATH= deployments/docker-compose/infra.yaml
 
-up: ## Start the services
-	docker compose -f $(DOCKER_COMPOSE_FILE_PATH) up -d
+build: catalog-service-build ## Build all services
+
+up: down ## Start the services
+	docker compose -f $(DOCKER_COMPOSE_FILE_PATH) up --build -d
 
 down: ## Stop and remove services
 	docker compose -f $(DOCKER_COMPOSE_FILE_PATH) down
