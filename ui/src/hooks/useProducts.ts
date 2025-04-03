@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ListProductsResponse } from "../types/product";
 import { Config } from "../config";
 
@@ -6,28 +6,30 @@ export const useProducts = () => {
   const [productsData, setProductsData] = useState<ListProductsResponse | null>(
     null
   );
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(`${Config.catalogURL}/products`);
-        if (!response.ok) {
-          setError("Failed to fetch products");
-          return;
-        }
-        const data: ListProductsResponse = await response.json();
-        setProductsData(data);
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
+  const fetchProducts = async (pageNumber: number = page) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `${Config.catalogURL}/products?page=${pageNumber}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch products");
       }
-    };
+      const data: ListProductsResponse = await response.json();
+      setProductsData(data);
+      setPage(pageNumber);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchProducts();
-  }, []);
-
-  return { productsData, loading, error };
+  return { productsData, loading, error, page, fetchProducts };
 };
