@@ -1,6 +1,6 @@
-import { BookList } from "../components/book-list";
+import { ProductList } from "../components/product-list";
 
-const books = [
+const products = [
   {
     id: 17,
     code: "P002",
@@ -45,5 +45,5 @@ const books = [
 ];
 
 export const Catalog = () => {
-  return <BookList books={books} />;
+  return <ProductList products={products} />;
 };

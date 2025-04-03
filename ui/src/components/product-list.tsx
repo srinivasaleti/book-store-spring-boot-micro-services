@@ -1,12 +1,12 @@
-import { BookCard } from "./book-card";
+import { ProductCard } from "./product-card";
 import { Box, Flex } from "@radix-ui/themes";
-import { Book } from "../types/book";
+import { Product } from "../types/product";
 
-interface BookListProps {
-  books: Book[];
+interface Props {
+  products: Product[];
 }
 
-export const BookList: React.FC<BookListProps> = ({ books }) => {
+export const ProductList: React.FC<Props> = ({ products }) => {
   return (
     <Box p="4">
       <Flex
@@ -20,8 +20,8 @@ export const BookList: React.FC<BookListProps> = ({ books }) => {
           justifyContent: "center",
         }}
       >
-        {books.map((book) => (
-          <BookCard key={book.id} book={book} />
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </Flex>
     </Box>

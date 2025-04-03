@@ -1,26 +1,26 @@
 import { Card, Flex, Text, Heading, Box } from "@radix-ui/themes";
 import styled from "styled-components";
-import { Book } from "../types/book";
+import { Product } from "../types/product";
 
-interface BookCardProps {
-  book: Book;
+interface Props {
+  product: Product;
 }
 
-export const BookCard: React.FC<BookCardProps> = ({ book }) => {
+export const ProductCard: React.FC<Props> = ({ product }) => {
   return (
     <Container>
       <StyledCard>
         <ImageContainer>
-          <StyledImage src={book.imageUrl} alt={book.name} />
+          <StyledImage src={product.imageUrl} alt={product.name} />
         </ImageContainer>
 
         <Content>
-          <StyledHeading weight="bold">{book.name}</StyledHeading>
+          <StyledHeading weight="bold">{product.name}</StyledHeading>
           <Description size="2" color="gray">
-            {book.description}
+            {product.description}
           </Description>
           <StyledPrice size="5" weight="bold">
-            ${book.price.toFixed(2)}
+            ${product.price.toFixed(2)}
           </StyledPrice>
         </Content>
       </StyledCard>
