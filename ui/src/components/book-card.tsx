@@ -14,17 +14,15 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
           <StyledImage src={book.imageUrl} alt={book.name} />
         </ImageContainer>
 
-        <Flex direction="column" gap="2" p="3">
-          <StyledHeading size="8" weight="bold">
-            {book.name}
-          </StyledHeading>
-          <Text size="2" color="gray">
+        <Content>
+          <StyledHeading weight="bold">{book.name}</StyledHeading>
+          <Description size="2" color="gray">
             {book.description}
-          </Text>
+          </Description>
           <StyledPrice size="5" weight="bold">
             ${book.price.toFixed(2)}
           </StyledPrice>
-        </Flex>
+        </Content>
       </StyledCard>
     </Container>
   );
@@ -49,8 +47,10 @@ const StyledCard = styled(Card)`
 `;
 
 const ImageContainer = styled(Box)`
+  height: 350px;
   border-bottom: 1px solid #e5e7eb;
-  overflow: hidden;
+
+  object-fit: contain;
 `;
 
 const StyledImage = styled.img`
@@ -64,8 +64,20 @@ const StyledImage = styled.img`
   }
 `;
 
+const Content = styled(Flex)`
+  height: 150px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
 const StyledHeading = styled(Heading)`
-  font-size: 1.5rem; /* Adjust for a bigger title */
+  font-size: 1rem;
+`;
+
+const Description = styled(Text)`
+  flex-grow: 1; /* Ensures even spacing */
 `;
 
 const StyledPrice = styled(Text)`
