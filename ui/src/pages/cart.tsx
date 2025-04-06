@@ -1,3 +1,5 @@
+import { EmptyCart } from '../components/empty-cart';
+
 export const Cart = () => {
-  return <div>Cart</div>;
+  return <EmptyCart />;
 };
