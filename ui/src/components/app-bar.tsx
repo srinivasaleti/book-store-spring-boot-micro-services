@@ -1,21 +1,21 @@
-import { Flex, Text, Box } from "@radix-ui/themes";
-import styled from "styled-components";
-import { ShoppingCart } from "lucide-react";
+import { Flex, Text, Box } from '@radix-ui/themes';
+import styled from 'styled-components';
+import { ShoppingCart } from 'lucide-react';
 
 export const AppBar = () => {
-    return (
-        <StyledHeader>
-            <Flex justify="between" align="center" p="3">
-                <Text size="5" weight="bold" color="blue">
-                    BookStore
-                </Text>
+  return (
+    <StyledHeader>
+      <Flex justify="between" align="center" p="3">
+        <Text size="5" weight="bold" color="blue">
+          BookStore
+        </Text>
 
-                <CartWrapper>
-                    <ShoppingCart size={24} />
-                </CartWrapper>
-            </Flex>
-        </StyledHeader>
-    );
+        <CartWrapper>
+          <ShoppingCart size={24} />
+        </CartWrapper>
+      </Flex>
+    </StyledHeader>
+  );
 };
 
 /* --- Styled Components --- */

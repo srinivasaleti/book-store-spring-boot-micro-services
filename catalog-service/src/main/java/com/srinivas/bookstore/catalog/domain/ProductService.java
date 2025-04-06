@@ -2,45 +2,42 @@ package com.srinivas.bookstore.catalog.domain;
 
 import com.srinivas.bookstore.catalog.ApplicationProperties;
 import jakarta.transaction.Transactional;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @Transactional
 public class ProductService {
-    private final ProductRepository productRepository;
-    private final ApplicationProperties properties;
+  private final ProductRepository productRepository;
+  private final ApplicationProperties properties;
 
+  public ProductService(
+      ProductRepository productRepository, ApplicationProperties applicationProperties) {
+    this.productRepository = productRepository;
+    this.properties = applicationProperties;
+  }
 
-    public ProductService(ProductRepository productRepository, ApplicationProperties applicationProperties) {
-        this.productRepository = productRepository;
-        this.properties = applicationProperties;
-    }
+  public PageResult<ProductEntity> getProducts(int pageNumber) {
+    Sort sort = Sort.by("name").ascending();
+    pageNumber = pageNumber < 1 ? 0 : pageNumber - 1;
+    PageRequest pageRequest = PageRequest.of(pageNumber, properties.pageSize(), sort);
+    Page<ProductEntity> page = productRepository.findAll(pageRequest);
 
-    public PageResult<ProductEntity> getProducts(int pageNumber) {
-        Sort sort = Sort.by("name").ascending();
-        pageNumber = pageNumber < 1 ? 0 : pageNumber - 1;
-        PageRequest pageRequest = PageRequest.of(pageNumber, properties.pageSize(), sort);
-        Page<ProductEntity> page = productRepository.findAll(pageRequest);
+    return new PageResult<>(
+        page.getContent(),
+        page.getNumber() + 1,
+        page.getTotalElements(),
+        page.getTotalPages(),
+        page.hasNext(),
+        page.hasPrevious(),
+        page.isLast(),
+        page.isFirst());
+  }
 
-        return new PageResult<>(
-                page.getContent(),
-                page.getNumber() + 1,
-                page.getTotalElements(),
-                page.getTotalPages(),
-                page.hasNext(),
-                page.hasPrevious(),
-                page.isLast(),
-                page.isFirst()
-        );
-    }
-
-    public Optional<ProductEntity> getProductByCode(String code) {
-        return productRepository.findByCode(code);
-    }
+  public Optional<ProductEntity> getProductByCode(String code) {
+    return productRepository.findByCode(code);
+  }
 }

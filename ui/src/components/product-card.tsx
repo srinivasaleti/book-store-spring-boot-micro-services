@@ -1,7 +1,7 @@
-import { Card, Flex, Text, Heading, Box } from "@radix-ui/themes";
-import styled from "styled-components";
-import { Product } from "../types/product";
-import { useCart } from "../context/cart-context";
+import { Card, Flex, Text, Heading, Box } from '@radix-ui/themes';
+import styled from 'styled-components';
+import { Product } from '../types/product';
+import { useCart } from '../context/cart-context';
 
 interface Props {
   product: Product;
@@ -9,7 +9,8 @@ interface Props {
 
 export const ProductCard: React.FC<Props> = ({ product }) => {
   const { cartItems, addToCart, removeFromCart } = useCart();
-  const quantity = cartItems.find(item => item.product.id === product.id)?.quantity || 0;
+  const quantity =
+    cartItems.find((item) => item.product.id === product.id)?.quantity || 0;
 
   return (
     <Container>
@@ -30,10 +31,14 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
             </StyledPrice>
 
             {quantity === 0 ? (
-              <AddButton onClick={() => addToCart(product)}>Add to Cart</AddButton>
+              <AddButton onClick={() => addToCart(product)}>
+                Add to Cart
+              </AddButton>
             ) : (
               <QuantityControls>
-                <CartButton onClick={() => removeFromCart(product.id)}>-</CartButton>
+                <CartButton onClick={() => removeFromCart(product.id)}>
+                  -
+                </CartButton>
                 <Quantity>{quantity}</Quantity>
                 <CartButton onClick={() => addToCart(product)}>+</CartButton>
               </QuantityControls>

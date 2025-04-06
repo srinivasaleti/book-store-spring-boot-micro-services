@@ -11,21 +11,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final ProductService productService;
+  private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+  public ProductController(ProductService productService) {
+    this.productService = productService;
+  }
 
-    @GetMapping
-    PageResult<ProductEntity> getProducts(@RequestParam(name = "page", defaultValue = "1") int page) {
-        return productService.getProducts(page);
-    }
+  @GetMapping
+  PageResult<ProductEntity> getProducts(@RequestParam(name = "page", defaultValue = "1") int page) {
+    return productService.getProducts(page);
+  }
 
-    @GetMapping("/{code}")
-    ResponseEntity<ProductEntity> getProductByCode(@PathVariable("code") String code) {
-        return productService.getProductByCode(code)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> ProductNotFoundException.forCode(code));
-    }
+  @GetMapping("/{code}")
+  ResponseEntity<ProductEntity> getProductByCode(@PathVariable("code") String code) {
+    return productService
+        .getProductByCode(code)
+        .map(ResponseEntity::ok)
+        .orElseThrow(() -> ProductNotFoundException.forCode(code));
+  }
 }

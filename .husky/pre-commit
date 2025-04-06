@@ -1,0 +1,12 @@
+echo "🔧 Formatting catalog-service (Maven Spotless)..."
+cd catalog-service
+mvn spotless:apply
+
+echo "🎨 Formatting frontend (Prettier)..."
+cd ../ui
+yarn format
+
+echo "✅ Formatting complete!"
+
+cd ..
+git add .

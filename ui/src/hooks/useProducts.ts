@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { ListProductsResponse } from "../types/product";
-import { Config } from "../config";
+import { useState } from 'react';
+import { ListProductsResponse } from '../types/product';
+import { Config } from '../config';
 
 export const useProducts = () => {
   const [productsData, setProductsData] = useState<ListProductsResponse | null>(
-    null
+    null,
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -16,10 +16,10 @@ export const useProducts = () => {
 
     try {
       const response = await fetch(
-        `${Config.catalogURL}/products?page=${pageNumber}`
+        `${Config.catalogURL}/products?page=${pageNumber}`,
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch products");
+        throw new Error('Failed to fetch products');
       }
       const data: ListProductsResponse = await response.json();
       setProductsData(data);
