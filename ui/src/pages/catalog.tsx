@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { ProductCard } from "../components/product-card";
 import { useProducts } from "../hooks/useProducts";
+import { AppBar } from "../components/app-bar";
 
 export const Catalog = () => {
   const { productsData, loading, error, page, fetchProducts } = useProducts();
@@ -15,6 +16,7 @@ export const Catalog = () => {
 
   return (
     <div>
+      <AppBar />
       <ProductGrid>
         {productsData?.data.map((product) => (
           <ProductCard key={product.id} product={product} />
