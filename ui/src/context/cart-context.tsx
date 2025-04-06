@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { Product } from '../types/product';
 
-type CartItem = {
+export type CartItem = {
   product: Product;
   quantity: number;
 };
@@ -10,8 +10,10 @@ type CartContextType = {
   cartItems: CartItem[];
   addToCart: (product: Product) => void;
   removeFromCart: (productId: number) => void;
+  resetCart: () => void;
   getQuantity: (productId: number) => number;
   totalItems: number;
+  totalAmount: number;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -53,9 +55,26 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     0,
   );
 
+  const resetCart = () => {
+    setCartItems([]);
+  };
+
+  const totalAmount = cartItems.reduce(
+    (sum, item) => sum + item.product.price * item.quantity,
+    0,
+  );
+
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, getQuantity, totalItems }}
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        getQuantity,
+        resetCart,
+        totalItems,
+        totalAmount,
+      }}
     >
       {children}
     </CartContext.Provider>
