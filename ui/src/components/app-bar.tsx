@@ -2,17 +2,27 @@ import { Flex, Text, Box } from '@radix-ui/themes';
 import styled from 'styled-components';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/cart-context';
+import { useNavigate } from 'react-router-dom';
+import { CART_ROUTE, CATALOG_ROUTE } from '../App';
 
 export const AppBar = () => {
   const { totalItems } = useCart();
+  const navigate = useNavigate();
+
   return (
     <StyledHeader>
       <Flex justify="between" align="center" p="3">
-        <Text size="5" weight="bold" color="blue">
+        <Text
+          size="5"
+          weight="bold"
+          color="blue"
+          style={{ cursor: 'pointer' }}
+          onClick={() => navigate(CATALOG_ROUTE)}
+        >
           BookStore
         </Text>
 
-        <CartWrapper>
+        <CartWrapper onClick={() => navigate(CART_ROUTE)}>
           <ShoppingCart size={24} />
           {totalItems > 0 && <Badge>{totalItems}</Badge>}
         </CartWrapper>
