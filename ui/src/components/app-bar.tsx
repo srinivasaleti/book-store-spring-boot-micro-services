@@ -1,4 +1,3 @@
-// components/AppBar.tsx
 import { Flex, Text, Box } from "@radix-ui/themes";
 import styled from "styled-components";
 import { ShoppingCart } from "lucide-react";
