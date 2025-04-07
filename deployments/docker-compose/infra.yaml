@@ -26,6 +26,30 @@ services:
           memory: "512M"
     networks:
       - book-store-network
+  orders-db:
+    image: postgres:16-alpine
+    container_name: orders-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "15433:5432"
+    volumes:
+      - ../../tmp/orders-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512M"
+    networks:
+      - book-store-network
 
   catalog-service:
     image: catalog-service
