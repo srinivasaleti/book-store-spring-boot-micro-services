@@ -1,0 +1,32 @@
+name: 🏗️ Build & Test Order Service
+
+on:
+  push:
+    branches:
+      - '**'  # Runs on push to any branch
+    paths:
+      - "order-service/**"  # Ensures it runs only if changes occur inside order-service
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  build-and-test:
+    name: 🚀 Build & Test
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./order-service
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: maven
+
+      - name: 📦 Build with Maven
+        run: mvn -ntp verify
