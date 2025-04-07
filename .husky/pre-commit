@@ -7,6 +7,3 @@ cd ../ui
 yarn format
 
 echo "✅ Formatting complete!"
-
-cd ..
-git add .
