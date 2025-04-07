@@ -50,7 +50,19 @@ services:
           memory: "512M"
     networks:
       - book-store-network
-
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "15672:5672"   # AMQP port
+      - "15673:15672" # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - ../../tmp/rabbitmq:/var/lib/postgresql/data
+    networks:
+      - book-store-network
   catalog-service:
     image: catalog-service
     container_name: catalog-service
