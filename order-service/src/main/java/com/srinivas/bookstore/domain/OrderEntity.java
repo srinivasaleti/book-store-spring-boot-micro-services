@@ -85,4 +85,8 @@ public class OrderEntity {
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
+
+    public Long getOrderID() {
+        return this.id;
+    }
 }
