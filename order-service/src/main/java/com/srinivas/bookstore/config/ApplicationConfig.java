@@ -35,4 +35,7 @@ public class ApplicationConfig {
     @Value("${rabbitmq.routing.delivered}")
     public String routingDelivered;
 
+    @Value("${catalog-service.url}")
+    public String catalogServiceUrl;
+
 }

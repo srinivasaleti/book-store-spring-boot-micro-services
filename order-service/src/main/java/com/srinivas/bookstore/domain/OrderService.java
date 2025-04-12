@@ -2,6 +2,7 @@ package com.srinivas.bookstore.domain;
 
 import com.srinivas.bookstore.domain.models.CreateOrderRequest;
 import com.srinivas.bookstore.domain.models.CreateOrderResponse;
+import com.srinivas.bookstore.domain.validators.OrderValidator;
 import net.logstash.logback.argument.StructuredArguments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,26 +14,26 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
+    private final OrderValidator orderValidator;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, OrderValidator orderValidator) {
         this.orderRepository = orderRepository;
+        this.orderValidator = orderValidator;
     }
 
     public CreateOrderResponse createOrder(String userName, CreateOrderRequest request) {
+        logger.info("Validating order");
+        orderValidator.validate(request);
+
         OrderEntity order = OrderMapper.toOrder(request);
         order.setUserName(userName);
 
-        logger.info("Creating order {}",
-                StructuredArguments.keyValue("orderNumber", order.getOrderNumber())
-        );
+        logger.info("Creating order {}", StructuredArguments.keyValue("orderNumber", order.getOrderNumber()));
 
         OrderEntity savedOrder = orderRepository.save(order);
 
-        logger.info("Order created successfully {} {}",
-                StructuredArguments.keyValue("orderID", savedOrder.getOrderID()),
-                StructuredArguments.keyValue("orderNumber", savedOrder.getOrderNumber())
-        );
+        logger.info("Order created successfully {} {}", StructuredArguments.keyValue("orderID", savedOrder.getOrderID()), StructuredArguments.keyValue("orderNumber", savedOrder.getOrderNumber()));
 
         return new CreateOrderResponse(savedOrder.getOrderNumber());
     }

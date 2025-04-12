@@ -1,6 +1,5 @@
 package com.srinivas.bookstore.exceptions;
 
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,6 +19,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Something went wrong", "message", ex.getMessage()));
     }
 
+    @ExceptionHandler(InvalidOrderException.class)
+    public ResponseEntity<?> handleInvalidOrderException(InvalidOrderException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                "service_name", "order-service",
+                "error", "invalid order",
+                "message", ex.getMessage()));
+    }
+
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<?> handleNoResourceFoundException(Exception ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "resource not found", "message", ex.getMessage()));
@@ -36,9 +43,9 @@ public class GlobalExceptionHandler {
                 status(HttpStatus.BAD_REQUEST).
                 body(Map.of(
                         "message", "Validation failed",
-                        "errors", errors, "timestamp",
-                        Instant.now(), "service_name",
-                        "order-service"
+                        "errors", errors,
+                        "timestamp", Instant.now(),
+                        "service_name", "order-service"
                 ));
     }
 }
