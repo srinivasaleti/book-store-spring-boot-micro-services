@@ -16,15 +16,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Something went wrong", "message", ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Something went wrong"));
     }
 
     @ExceptionHandler(InvalidOrderException.class)
     public ResponseEntity<?> handleInvalidOrderException(InvalidOrderException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                "service_name", "order-service",
-                "error", "invalid order",
-                "message", ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("service_name", "order-service", "error", "invalid order", "message", ex.getMessage()));
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
@@ -39,13 +36,6 @@ public class GlobalExceptionHandler {
             errors.put(err.getField(), err.getDefaultMessage());
         });
 
-        return ResponseEntity.
-                status(HttpStatus.BAD_REQUEST).
-                body(Map.of(
-                        "message", "Validation failed",
-                        "errors", errors,
-                        "timestamp", Instant.now(),
-                        "service_name", "order-service"
-                ));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Validation failed", "errors", errors, "timestamp", Instant.now(), "service_name", "order-service"));
     }
 }

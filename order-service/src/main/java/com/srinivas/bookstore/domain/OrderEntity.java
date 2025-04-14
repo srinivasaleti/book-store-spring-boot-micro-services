@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -88,5 +89,25 @@ public class OrderEntity {
 
     public Long getOrderID() {
         return this.id;
+    }
+
+    public List<OrderItemEntity> getItems() {
+        return this.items;
+    }
+
+    public Customer getCustomer() {
+        return this.customer;
+    }
+
+    public Address getDeliveryAddress() {
+        return this.deliveryAddress;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return this.updatedAt;
     }
 }

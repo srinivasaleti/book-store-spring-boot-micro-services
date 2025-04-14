@@ -51,4 +51,20 @@ public class OrderItemEntity {
     public void setOrder(OrderEntity order) {
         this.order = order;
     }
+
+    public String getProductCode() {
+        return this.code;
+    }
+
+    public String getProductName() {
+        return this.name;
+    }
+
+    public Integer getQuantity() {
+        return this.quantity;
+    }
+
+    public Double getPrice() {
+        return this.price;
+    }
 }
