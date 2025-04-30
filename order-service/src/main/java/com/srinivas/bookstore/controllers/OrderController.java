@@ -1,5 +1,6 @@
 package com.srinivas.bookstore.controllers;
 
+import com.srinivas.bookstore.domain.OrderEntity;
 import com.srinivas.bookstore.domain.OrderService;
 import com.srinivas.bookstore.domain.OrderSummaryDTO;
 import com.srinivas.bookstore.domain.SecurityService;
@@ -35,5 +36,11 @@ public class OrderController {
     public ResponseEntity<List<OrderSummaryDTO>> getAllOrders() {
         List<OrderSummaryDTO> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
+    }
+    
+    @GetMapping("/{orderNumber}")
+    public ResponseEntity<OrderEntity> getOrderByOrderNumber(@PathVariable String orderNumber) {
+        OrderEntity order = orderService.getOrderByOrderNumber(orderNumber);
+        return ResponseEntity.ok(order);
     }
 }

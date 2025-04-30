@@ -1,5 +1,6 @@
 package com.srinivas.bookstore.exceptions;
 
+import com.srinivas.bookstore.domain.exceptions.OrderNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,6 +28,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<?> handleNoResourceFoundException(Exception ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "resource not found", "message", ex.getMessage()));
+    }
+    
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<?> handleOrderNotFoundException(OrderNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+            "service_name", "order-service", 
+            "error", "order not found", 
+            "message", ex.getMessage(),
+            "timestamp", Instant.now().toString()
+        ));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

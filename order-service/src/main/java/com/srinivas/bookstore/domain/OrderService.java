@@ -1,5 +1,6 @@
 package com.srinivas.bookstore.domain;
 
+import com.srinivas.bookstore.domain.exceptions.OrderNotFoundException;
 import com.srinivas.bookstore.domain.models.CreateOrderRequest;
 import com.srinivas.bookstore.domain.models.CreateOrderResponse;
 import com.srinivas.bookstore.domain.models.OrderCreatedEvent;
@@ -59,5 +60,11 @@ public class OrderService {
                         order.getUpdatedAt()
                 ))
                 .collect(Collectors.toList());
+    }
+    
+    public OrderEntity getOrderByOrderNumber(String orderNumber) {
+        logger.info("Fetching order with order number {}", StructuredArguments.keyValue("orderNumber", orderNumber));
+        return orderRepository.findByOrderNumber(orderNumber)
+                .orElseThrow(() -> new OrderNotFoundException("Order not found with order number: " + orderNumber));
     }
 }
