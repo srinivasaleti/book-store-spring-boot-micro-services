@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class OrderService {
@@ -43,5 +46,18 @@ public class OrderService {
         orderEventService.saveOrderCreatedEvent(orderCreatedEvent);
 
         return new CreateOrderResponse(savedOrder.getOrderNumber());
+    }
+
+    public List<OrderSummaryDTO> getAllOrders() {
+        return orderRepository.findAll()
+                .stream()
+                .map(order -> new OrderSummaryDTO(
+                        order.getOrderNumber(),
+                        order.getCustomer().name(),
+                        order.getStatus(),
+                        order.getCreatedAt(),
+                        order.getUpdatedAt()
+                ))
+                .collect(Collectors.toList());
     }
 }

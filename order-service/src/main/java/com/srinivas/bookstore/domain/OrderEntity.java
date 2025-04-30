@@ -110,4 +110,8 @@ public class OrderEntity {
     public LocalDateTime getUpdatedAt() {
         return this.updatedAt;
     }
+
+    public OrderStatus getStatus() {
+        return this.status;
+    }
 }
