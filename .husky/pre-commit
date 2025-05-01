@@ -2,6 +2,10 @@ echo "🔧 Formatting catalog-service (Maven Spotless)..."
 cd catalog-service
 mvn spotless:apply
 
+cd ..
+cd api-gateway
+mvn spotless:apply
+
 echo "🎨 Formatting frontend (Prettier)..."
 cd ../ui
 yarn format
