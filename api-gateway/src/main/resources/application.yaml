@@ -1,0 +1,6 @@
+server:
+  port: 8989
+  shutdown: graceful
+spring:
+  application:
+    name: api-gateway
