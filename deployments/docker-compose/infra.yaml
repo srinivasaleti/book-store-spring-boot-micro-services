@@ -74,6 +74,17 @@ services:
       - "18081:8081"
     networks:
       - book-store-network
+  order-service:
+    image: order-service
+    container_name: order-service
+    environment:
+      DB_URL: jdbc:postgresql://orders-db:5432/postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    ports:
+      - "18082:8082"
+    networks:
+      - book-store-network
 
 volumes:
   postgres_data:
