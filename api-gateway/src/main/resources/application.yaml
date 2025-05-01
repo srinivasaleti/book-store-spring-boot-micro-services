@@ -4,3 +4,11 @@ server:
 spring:
   application:
     name: api-gateway
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /actuator
