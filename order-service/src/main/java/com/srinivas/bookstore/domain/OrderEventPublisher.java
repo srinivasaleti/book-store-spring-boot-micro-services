@@ -9,29 +9,33 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OrderEventPublisher {
-    private final RabbitTemplate rabbitTemplate;
-    private final ApplicationConfig applicationConfig;
-    private final  ObjectMapper objectMapper;
+  private final RabbitTemplate rabbitTemplate;
+  private final ApplicationConfig applicationConfig;
+  private final ObjectMapper objectMapper;
 
-    public OrderEventPublisher(RabbitTemplate rabbitTemplate, ApplicationConfig applicationConfig, ObjectMapper objectMapper) {
-        this.rabbitTemplate = rabbitTemplate;
-        this.applicationConfig = applicationConfig;
-        this.objectMapper = objectMapper;
-    }
+  public OrderEventPublisher(
+      RabbitTemplate rabbitTemplate,
+      ApplicationConfig applicationConfig,
+      ObjectMapper objectMapper) {
+    this.rabbitTemplate = rabbitTemplate;
+    this.applicationConfig = applicationConfig;
+    this.objectMapper = objectMapper;
+  }
 
-    public void publish(OrderCreatedEvent orderCreatedEvent) {
-        this.send(this.applicationConfig.routingNew, orderCreatedEvent);
-    }
+  public void publish(OrderCreatedEvent orderCreatedEvent) {
+    this.send(this.applicationConfig.routingNew, orderCreatedEvent);
+  }
 
-    private void send(String rotingKey, Object payload) {
-        this.rabbitTemplate.convertAndSend(this.applicationConfig.exchange, rotingKey, formatToString(payload));
-    }
+  private void send(String rotingKey, Object payload) {
+    this.rabbitTemplate.convertAndSend(
+        this.applicationConfig.exchange, rotingKey, formatToString(payload));
+  }
 
-    private Object formatToString(Object payload) {
-        try {
-            return objectMapper.writeValueAsString(payload);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+  private Object formatToString(Object payload) {
+    try {
+      return objectMapper.writeValueAsString(payload);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
     }
+  }
 }

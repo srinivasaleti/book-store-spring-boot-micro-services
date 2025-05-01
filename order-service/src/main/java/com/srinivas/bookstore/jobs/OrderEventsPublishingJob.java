@@ -11,20 +11,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderEventsPublishingJob {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrderEventsPublishingJob.class);
+  private static final Logger logger = LoggerFactory.getLogger(OrderEventsPublishingJob.class);
 
-    private final OrderEventService orderEventService;
+  private final OrderEventService orderEventService;
 
-    public OrderEventsPublishingJob(OrderEventService orderService) {
-        this.orderEventService = orderService;
-    }
+  public OrderEventsPublishingJob(OrderEventService orderService) {
+    this.orderEventService = orderService;
+  }
 
-    @Scheduled(cron = "${order.events.publish.cron}")
-    @SchedulerLock(name = "publishNewOrders")
-    public void publishNewOrders() {
-        LockAssert.assertLocked();
-        logger.info("Starting to publish order events...");
-        orderEventService.publishOrderEvents();
-        logger.info("Order events published successfully.");
-    }
+  @Scheduled(cron = "${order.events.publish.cron}")
+  @SchedulerLock(name = "publishNewOrders")
+  public void publishNewOrders() {
+    LockAssert.assertLocked();
+    logger.info("Starting to publish order events...");
+    orderEventService.publishOrderEvents();
+    logger.info("Order events published successfully.");
+  }
 }

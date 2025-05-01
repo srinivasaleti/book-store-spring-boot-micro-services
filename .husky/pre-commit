@@ -6,6 +6,10 @@ cd ..
 cd api-gateway
 mvn spotless:apply
 
+cd ..
+cd order-service
+mvn spotless:apply
+
 echo "🎨 Formatting frontend (Prettier)..."
 cd ../ui
 yarn format
