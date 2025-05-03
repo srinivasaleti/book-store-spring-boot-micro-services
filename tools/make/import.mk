@@ -4,3 +4,4 @@ include tools/make/catalog-service.mk
 include tools/make/ui.mk
 include tools/make/app.mk
 include tools/make/order-service.mk
+include tools/make/api-gateway.mk

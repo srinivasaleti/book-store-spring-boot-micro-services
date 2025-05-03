@@ -85,6 +85,16 @@ services:
       - "18082:8082"
     networks:
       - book-store-network
+  api-gateway:
+    image: api-gateway
+    container_name: api-gateway
+    environment:
+      ORDER_SERVICE_URL: http://order-service:8082
+      CATALOG_SERVICE_URL: http://catalog-service:8081
+    ports:
+      - "18989:8989"
+    networks:
+      - book-store-network
 
 volumes:
   postgres_data:

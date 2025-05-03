@@ -2,7 +2,7 @@
 
 DOCKER_COMPOSE_FILE_PATH= deployments/docker-compose/infra.yaml
 
-build: catalog-service-build order-service-build ## Build all services
+build: catalog-service-build order-service-build api-gateway-build ## Build all services
 
 up: down ## Start the services
 	docker compose -f $(DOCKER_COMPOSE_FILE_PATH) up --build -d
