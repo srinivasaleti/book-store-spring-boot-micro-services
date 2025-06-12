@@ -1,4 +1,4 @@
 export const Config = {
-  catalogURL: 'http://localhost:18989/catalog/api',
-  orderUrl: 'http://localhost:18989/orders/api',
+  catalogURL: `${import.meta.env.VITE_API_GATEWAY_URL}/catalog/api`,
+  orderUrl: `${import.meta.env.VITE_API_GATEWAY_URL}/orders/api`,
 };

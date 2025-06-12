@@ -15,7 +15,7 @@ services:
     volumes:
       - ../../tmp/catelog-db:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -39,7 +39,7 @@ services:
     volumes:
       - ../../tmp/orders-db:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -96,7 +96,15 @@ services:
       - "18989:8989"
     networks:
       - book-store-network
-
+  frontend:
+    image: bookstore-ui
+    container_name: bookstore-ui
+    ports:
+      - "18080:80"
+    depends_on:
+      - api-gateway
+    networks:
+      - book-store-network
 volumes:
   postgres_data:
     driver: local
