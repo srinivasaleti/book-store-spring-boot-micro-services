@@ -22,6 +22,9 @@ public class CatalogServiceClient {
     requestFactory.setConnectTimeout(2000);
     requestFactory.setReadTimeout(2000);
 
+    logger.info(
+        "Catalog service url",
+        StructuredArguments.keyValue("catalog_service", applicationConfig.catalogServiceUrl));
     this.restClient =
         RestClient.builder()
             .baseUrl(applicationConfig.catalogServiceUrl)

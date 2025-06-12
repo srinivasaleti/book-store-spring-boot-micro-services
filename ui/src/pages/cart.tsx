@@ -3,13 +3,40 @@ import styled from 'styled-components';
 import { useCart } from '../context/cart-context';
 import { EmptyCart } from '../components/empty-cart';
 import { CartItem } from '../components/cart-item';
+import { usePlaceOrder } from '../hooks/useOrder';
 
 export const Cart = () => {
   const { cartItems, totalAmount, resetCart } = useCart();
+  const { placeOrder, placing, error, success } = usePlaceOrder();
 
-  const handlePlaceOrder = () => {
-    alert('Order placed successfully!');
+  const handlePlaceOrder = async () => {
+    const orderPayload = {
+      customer: {
+        username: 'johndoe',
+        name: 'John Doe',
+        email: 'john@example.com',
+        phone: '1234567890',
+      },
+      deliveryAddress: {
+        line1: '123 Main St',
+        line2: 'Apt 4B',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '10001',
+        country: 'IN',
+      },
+      orderItems: cartItems.map((item) => ({
+        code: item.product.code,
+        name: item.product.name,
+        quantity: item.quantity,
+        price: item.product.price,
+      })),
+      comments: 'Leave at the doorstep',
+    };
+
+    await placeOrder(orderPayload);
     resetCart();
+    alert('Order Successfully placed');
   };
 
   if (cartItems.length === 0) {
@@ -31,11 +58,23 @@ export const Cart = () => {
 
         <ButtonGroup>
           <ClearAllButton onClick={resetCart}>Clear</ClearAllButton>
-          <PlaceOrderButton onClick={handlePlaceOrder}>
-            Place Order
+          <PlaceOrderButton onClick={handlePlaceOrder} disabled={placing}>
+            {placing ? 'Placing...' : 'Place Order'}
           </PlaceOrderButton>
         </ButtonGroup>
       </Summary>
+
+      {success && (
+        <Text color="green" weight="bold">
+          ✅ Order placed successfully!
+        </Text>
+      )}
+
+      {error && (
+        <Text color="red" weight="bold">
+          ❌ Failed to place order: {error}
+        </Text>
+      )}
     </CartContainer>
   );
 };
@@ -80,5 +119,10 @@ const PlaceOrderButton = styled(Button)`
 
   &:hover {
     background-color: #059669;
+  }
+
+  &:disabled {
+    background-color: #a7f3d0;
+    cursor: not-allowed;
   }
 `;

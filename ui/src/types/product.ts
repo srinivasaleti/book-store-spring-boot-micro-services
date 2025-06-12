@@ -17,3 +17,29 @@ export interface ListProductsResponse {
   isFirst: boolean;
   isLast: boolean;
 }
+
+export interface OrderItem {
+  code: string;
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+export interface OrderRequest {
+  customer: {
+    username: string;
+    name: string;
+    email: string;
+    phone: string;
+  };
+  deliveryAddress: {
+    line1: string;
+    line2: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
+  orderItems: OrderItem[];
+  comments?: string;
+}
