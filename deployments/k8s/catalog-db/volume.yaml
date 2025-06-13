@@ -1,0 +1,27 @@
+# This PersistentVolume is backed by a local folder on the Minikube VM.
+# It stores the data at /tmp/k8s/catalog-db-data on the host (Minikube VM).
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: catalog-db-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /tmp/k8s/catalog-db-data  # This is on Minikube's VM
+  persistentVolumeReclaimPolicy: Retain
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: catalog-db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

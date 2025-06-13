@@ -1,0 +1,19 @@
+# This Service exposes the 'catalog-db' Postgres Deployment inside the cluster.
+# It is not accessible from outside Kubernetes (default ClusterIP),
+# but allows other services (like catalog-service) to connect using the name 'catalog-db'.
+
+# Usage:
+#   - catalog-service can connect to DB using host: 'catalog-db', port: 5432
+#   - DB connection string inside catalog-service: jdbc:postgresql://catalog-db:5432/postgres
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-db
+spec:
+  selector:
+    app: catalog-db  # Must match the label of the target deployment/pod
+  ports:
+    - name: postgres
+      port: 5432        # Port exposed by the service (used by other services)
+      targetPort: 5432  # Port on the container (inside the pod)
