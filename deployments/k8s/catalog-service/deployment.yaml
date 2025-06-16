@@ -1,0 +1,32 @@
+# This Deployment runs the catalog-service container
+# It connects to catalog-db via internal DNS (host: catalog-db, port: 5432)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-service
+  template:
+    metadata:
+      labels:
+        app: catalog-service
+    spec:
+      containers:
+        - name: catalog-service
+          image: catalog-service  # Make sure this image is built and loaded into Minikube
+          imagePullPolicy: Never  # ✅ Tell Kubernetes: use the local image only
+          ports:
+            - containerPort: 8081
+          env:
+            - name: DB_URL
+              value: "jdbc:postgresql://catalog-db:5432/postgres"
+            - name: DB_USERNAME
+              value: "postgres"
+            - name: DB_PASSWORD
+              value: "postgres"
+            - name: TESTCONTAINERS_DISABLED
+              value: "true"  # ✅ This disables Ryuk/Testcontainers

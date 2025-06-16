@@ -1,0 +1,13 @@
+# Exposes catalog-service inside the cluster as a ClusterIP service
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-service
+spec:
+  selector:
+    app: catalog-service
+  ports:
+    - name: http
+      port: 8081
+      targetPort: 8081
