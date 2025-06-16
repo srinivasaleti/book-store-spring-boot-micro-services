@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookstore-ui
+  template:
+    metadata:
+      labels:
+        app: bookstore-ui
+    spec:
+      containers:
+        - name: bookstore-ui
+          image: bookstore-ui  # Make sure this is built inside Minikube
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80  # Nginx default
