@@ -1,0 +1,19 @@
+# This Service exposes the 'order-db' Postgres Deployment inside the cluster.
+# It is not accessible from outside Kubernetes (default ClusterIP),
+# but allows other services (like order-service) to connect using the name 'order-db'.
+
+# Usage:
+#   - order-service can connect to DB using host: 'order-db', port: 5432
+#   - DB connection string inside order-service: jdbc:postgresql://order-db:5432/postgres
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-db
+spec:
+  selector:
+    app: order-db  # Must match the label of the target deployment/pod
+  ports:
+    - name: postgres
+      port: 5432        # Port exposed by the service (used by other services)
+      targetPort: 5432  # Port on the container (inside the pod)

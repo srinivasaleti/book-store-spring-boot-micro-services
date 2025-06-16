@@ -1,0 +1,32 @@
+# This Deployment runs the order-service container
+# It connects to order-db via internal DNS (host: order-db, port: 5432)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: order-service  # Make sure this image is built and loaded into Minikube
+          imagePullPolicy: Never  # ✅ Tell Kubernetes: use the local image only
+          ports:
+            - containerPort: 8082
+          env:
+            - name: DB_URL
+              value: "jdbc:postgresql://order-db:5432/postgres"
+            - name: DB_USERNAME
+              value: "postgres"
+            - name: DB_PASSWORD
+              value: "postgres"
+            - name: CATALOG_SERVICE_URL
+              value: "catalog-service:8081"

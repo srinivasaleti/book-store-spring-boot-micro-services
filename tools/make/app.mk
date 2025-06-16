@@ -10,14 +10,12 @@ start-minikube:
 		minikube start; \
 	fi
 
-stop-minikube:
-	@minikube stop
+k8s-up: start-minikube catalog-k8s-deploy order-service-k8s-deploy ## Deploy k8s
 
-k8s-up: start-minikube k8s-build catalog-k8s-deploy ## Deploy  k8s
-
-k8s-down: catalog-k8s-destroy stop-minikube ## Deploy  k8s
+k8s-down: catalog-k8s-destroy ## Deploy  k8s
 
 k8s-build: start-minikube
 	@echo "Using Minikube's Docker daemon..."
 	@eval $$(minikube docker-env) && \
-	make catalog-service-build
+	make catalog-service-build && \
+	make order-service-build

@@ -1,0 +1,44 @@
+# This Deployment runs a single instance of the Postgres database for the order service.
+# It creates a Pod with the official 'postgres:16-alpine' image and sets required environment variables.
+# This database is only accessible inside the cluster via a corresponding Kubernetes Service.
+
+# Usage:
+# - The DB will run in a pod labeled "app: order-db"
+# - The Service (defined separately) targets this pod by label
+# - Other apps can access this DB using: host='order-db', port=5432
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-db
+spec:
+  replicas: 1  # One instance of the database pod
+  selector:
+    matchLabels:
+      app: order-db  # Ensures the Service can target this pod
+  template:
+    metadata:
+      labels:
+        app: order-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432  # Postgres default port
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "postgres"
+          readinessProbe:
+            exec:
+              command: [ "pg_isready", "-U", "postgres" ]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: order-db-storage
+          persistentVolumeClaim:
+            claimName: order-db-pvc  # PVC must exist (defined in volume.yaml)
