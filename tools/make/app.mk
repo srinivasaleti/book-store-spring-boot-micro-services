@@ -10,9 +10,9 @@ start-minikube:
 		minikube start; \
 	fi
 
-k8s-up: start-minikube catalog-k8s-deploy order-service-k8s-deploy api-gateway-k8s-deploy ## Deploy k8s
+k8s-up: start-minikube catalog-k8s-deploy rabbitmq-k8s-deploy order-service-k8s-deploy api-gateway-k8s-deploy ## Deploy k8s
 
-k8s-down: catalog-k8s-destroy order-service-k8s-destroy api-gateway-k8s-destroy ## Deploy  k8s
+k8s-down: catalog-k8s-destroy order-service-k8s-destroy api-gateway-k8s-destroy rabbitmq-k8s-destroy ## Deploy  k8s
 
 k8s-build: start-minikube
 	@echo "Using Minikube's Docker daemon..."
