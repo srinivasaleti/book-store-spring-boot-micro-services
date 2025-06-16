@@ -1,0 +1,28 @@
+# This Deployment runs the api-gateway container
+# It connects to order-db via internal DNS (host: order-db, port: 5432)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: api-gateway  # Make sure this image is built and loaded into Minikube
+          imagePullPolicy: Never  # ✅ Tell Kubernetes: use the local image only
+          ports:
+            - containerPort: 8989
+          env:
+            - name: CATALOG_SERVICE_URL
+              value: "http://catalog-service:8081"
+            - name: ORDER_SERVICE_URL
+              value: "http://order-service:8082"

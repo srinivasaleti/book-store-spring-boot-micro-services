@@ -1,0 +1,13 @@
+# Exposes api-gateway inside the cluster as a ClusterIP service
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    app: api-gateway
+  ports:
+    - name: http
+      port: 8989
+      targetPort: 8989
