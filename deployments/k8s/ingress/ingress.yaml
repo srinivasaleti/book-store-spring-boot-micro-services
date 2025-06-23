@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bookstore-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+spec:
+  rules:
+    - host: bookstore.localhost
+      http:
+        paths:
+          - path: /api-gateway(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8989
+          - path: /()(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: bookstore-ui
+                port:
+                  number: 80
+    - host: bookstore.rmq.localhost
+      http:
+        paths:
+          - path: /rmq
+            pathType: Prefix
+            backend:
+              service:
+                name: rabbitmq
+                port:
+                  number: 15672
