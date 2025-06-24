@@ -7,3 +7,4 @@ include tools/make/order-service.mk
 include tools/make/api-gateway.mk
 include tools/make/rabbitmq.mk
 include tools/make/ingress.mk
+include tools/make/loki.mk
