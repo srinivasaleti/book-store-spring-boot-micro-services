@@ -1,7 +1,5 @@
-.PHONY: loki-install helm-install check-helm
-
 # Entry point
-loki-install: check-helm
+loki-install:
 	@echo "👉 Checking if Loki is already installed..."
 	@if helm ls -q | grep -q '^loki$$'; then \
 		echo "✅ Loki is already installed."; \
@@ -38,4 +36,17 @@ helm-install:
 	else \
 		echo "❌ Unsupported OS: $$UNAME_S"; \
 		exit 1; \
+	fi
+
+# Install Prometheus if not already installed
+prometheus-install:
+	@echo "👉 Checking if Prometheus is already installed..."
+	@if helm ls -q | grep -q '^prometheus$$'; then \
+		echo "✅ Prometheus is already installed."; \
+	else \
+		echo "🚀 Installing Prometheus..."; \
+		helm repo add prometheus-community https://prometheus-community.github.io/helm-charts; \
+		helm repo update; \
+		helm install prometheus prometheus-community/prometheus; \
+		echo "✅ Prometheus installed successfully."; \
 	fi

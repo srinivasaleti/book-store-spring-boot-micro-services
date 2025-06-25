@@ -1,4 +1,4 @@
-install: ui-install  ## Install all packages
+install: check-helm loki-install prometheus-install  ## Install all packages
 	yarn
 
 start-minikube:
